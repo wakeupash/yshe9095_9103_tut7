@@ -1,21 +1,11 @@
 # yshe9095_9103_tut7
 ## Quiz 8 
 ### Part1: Imaging Technique Inspiration
-        For the major project, we would like to choose Anwar Jalal Shemza 'Apple Tree'.
-        Our projects draw inspiration from the fusion of digital and geometric art found in film and artwork.
-        For exmaple, the digital rain in The Matrix and astral motion in Interstellar.
-        We want to add these animation effects to our project.
-        There is also the geometric art of Victor Vasarely, since the art chosen is also
-        composed mainly of geometric shapes.
-        By integrating these elements through p5.js technology,
-        we aimed to bring some amazing animation to this major project,
-        completing this project through interactive geometric design.
+In our major project, we've chosen the artwork from Anwar Jalal Shemza, "Apple Tree." I was inspired by the fusion of digital and geometric art as depicted in films and visual art. For example, the  digital rain in "The Matrix" and the astral motion in "Interstellar". I would like to add these animation effects to our project. Additionally, the structured beauty in Victor Vasarely's geometric art aligns with our project's nature, which is fundamentally rooted in geometric forms. Through the p5.js technology, our goal is to animate the apple tree in a manner that invites interaction and adds the same geometric arts.
 ![Inspiration from The Matrix](assets/The_Matrix.jpeg)
 ![Inspiration from Interstellar](assets/Interstellar.png)
 ![Inspiration from Victor Vasarely](assets/Victor_Vasarely.png)
 ### Part2: Coding Technique Exploration
-        To animate the apple tree, we'll turn to the object-oriented programming and array functions of p5.js.
-        > blockquote
         To achieve the abstract and dynamic visual effects described in Part 1,
         we will make use of object-oriented programming (OOP) and array functions in p5.js.
         OOP will allow us to define classes for geometric shapes,       
@@ -23,7 +13,7 @@
         For example, a class might represent the orbiting planets depicted in "Interstellar."
         Array functions will be able to manage collections of these objects, 
         facilitating operations such as creation, sorting and animation.
-        *Here are some links of techniques.*
+*Check out some technique links.*
 [Array function](https://happycoding.io/tutorials/p5js/array-functions)
 [Popping Circles](https://happycoding.io/tutorials/p5js/creating-classes/popping-circles)
 [Planets](https://happycoding.io/tutorials/p5js/creating-classes/planets)
