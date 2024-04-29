@@ -5,8 +5,9 @@
         Our projects draw inspiration from the fusion of digital and geometric art found in film and artwork.
         For exmapke, the digital rain in The Matrix and astral motion in Interstellar.
         We want to add these animation effects to our project.
-        There is also the geometric art of Victor Vasarely, since the art chosen is also        composed mainly of geometric shapes.
-        By integrating these elements through p5.js technology, we aimed to bring a         structured and animated quality to this major project, completing this project through interactive geometric design.
+        There is also the geometric art of Victor Vasarely, since the art chosen is also
+        composed mainly of geometric shapes.
+        By integrating these elements through p5.js technology, we aimed to bring some amazing animation to this major project, completing this project through interactive geometric design.
 ![Inspiration from The Matrix](assets/The_Matrix.jpeg)
 ![Inspiration from Interstellar](assets/Interstellar.png)
 ![Inspiration from Victor Vasarely](assets/Victor_Vasarely.png)
