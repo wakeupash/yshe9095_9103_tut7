@@ -4,5 +4,11 @@ function setup() {
 }
 
 function draw() {
-  background(0);
+  background(255);
+  drawCity();
+}
+
+function drawCity(){
+  fill(0);
+  rect(windowWidth * 0.2, windowHeight * 0.2, 80, 400);
 }
