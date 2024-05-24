@@ -1,5 +1,5 @@
 # yshe9095_9103_tut7
-## Quiz 8 
+## Creative Coding Major Project
 ### Part1: Imaging Technique Inspiration
 In our major project, we've chosen the artwork from Anwar Jalal Shemza, "Apple Tree." I was inspired by the fusion of digital and geometric art as depicted in films and visual art. For example, the  digital rain in "The Matrix" and the astral motion in "Interstellar". I would like to add these animation effects to our project. Additionally, the structured beauty in Victor Vasarely's geometric art aligns with our project's nature, which is fundamentally rooted in geometric forms. Through the p5.js technology, our goal is to animate the apple tree in a manner that invites interaction and adds the same geometric arts.
 ![Inspiration from The Matrix](assets/The_Matrix.jpeg)
