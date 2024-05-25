@@ -108,9 +108,9 @@ function drawWater() {
     }
 }
 
-
 //draw the reflection of the shape
 function drawReflection() {
+    //Find the x-coordinate of the highest point in the drawShape
     let minY = Infinity;
     for (let pt of shapePoints) {
         if (pt.y < minY) {
@@ -118,6 +118,7 @@ function drawReflection() {
             highestX = pt.x;
         }
     }
+    //Draw an ellipse for the reflection
     let diameter = 40 * scaleFactor;
     let spacing = diameter + 5;
     fill(0, 200);
