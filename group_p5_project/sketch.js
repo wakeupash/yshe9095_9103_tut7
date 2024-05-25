@@ -71,9 +71,16 @@ function drawShape() {
 
 //draw the water surface
 function drawWater() {
+    let maxY = -Infinity;
+    for (let pt of shapePoints) {
+        if (pt.y > maxY) {
+            maxY = pt.y;
+        }
+    }
     let scaleFactor = min(width / baseWidth, height / baseHeight);
-    let waterStart = height * 0.6 * scaleFactor;
-    let waterEnd = height * scaleFactor;
+    let maxShapeY = maxY * scaleFactor;
+    let waterStart = maxShapeY * 0.9;
+    let waterEnd = windowHeight * scaleFactor;
     for (let i = waterStart; i < waterEnd; i++) {
         let inter = map(i, waterStart, waterEnd, 0, 1);
         let c = lerpColor(color(255, 142, 0, 60), color(108, 159, 189, 60), inter);
