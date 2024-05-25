@@ -71,23 +71,28 @@ function drawShape() {
 
 //draw the water surface
 function drawWater() {
-    for (let i = height * 0.8; i < height; i++) {
-        let inter = map(i, height * 0.8, height, 0, 1);
-        let c = lerpColor(color(255, 142, 0, 60), color(108, 159, 189, 60), inter);
-        stroke(c);
-        line(0, i, width, i);
+    let blockSize = 20;
+    for (let y = height * 0.8; y < height; y += blockSize) {
+        for (let x = 0; x < width; x += blockSize) {
+            let inter = map(y, height * 0.8, height, 0, 1);
+            let c = lerpColor(color(255, 142, 0, 60), color(108, 159, 189, 60), inter);
+            fill(c);
+            noStroke();
+            rect(x, y, blockSize, blockSize);
+        }
     }
 }
+
 
 //draw the reflection of the shape
 function drawReflection() {
     let scaleFactor = min(width / baseWidth, height / baseHeight);
-    let diameter = 30 * scaleFactor;
+    let diameter = 40 * scaleFactor;
     let spacing = diameter + 5;
     fill(0, 200);
     noStroke();
     for (let i = 0; i < 7; i++) {
         let y = height * 0.8 + i * spacing + diameter/2;
-        ellipse(339, y, diameter * 2, diameter); // vertical stretched ellipse to represent reflection
+        ellipse(339, y, diameter * 1.5, diameter);
     }
 }
