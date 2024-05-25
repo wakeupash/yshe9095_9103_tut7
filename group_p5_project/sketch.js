@@ -20,6 +20,9 @@ let maxShapeY;
 let waterStart;
 let waterEnd;
 
+let rows = 5; 
+let waveMaxHeight = 20; 
+
 function setup() {
     createCanvas(windowWidth, windowHeight);
     scaleFactor = min(width / baseWidth, height / baseHeight);
@@ -31,8 +34,9 @@ function setup() {
         }
     }
     maxShapeY = maxY * scaleFactor;
-    //Get the waterStart value of the beginning of the water surface from 90% of the height of the entire shape
+    //Get the waterStart value from 90% of the height of the entire shape
     waterStart = maxShapeY * 0.9;
+    //Let the value of waterEnd be at the bottom of the screen
     waterEnd = height;
 }
 
@@ -47,8 +51,9 @@ function windowResized() {
         }
     }
     maxShapeY = maxY * scaleFactor;
-    //Get the waterStart value of the beginning of the water surface from 90% of the height of the entire shape
+    //Get the waterStart value from 90% of the height of the entire shape
     waterStart = maxShapeY * 0.9;
+    //Let the value of waterEnd be at the bottom of the screen
     waterEnd = height;
 }
 
@@ -106,12 +111,55 @@ function drawWater() {
         stroke(c);
         line(0, i, width, i);
     }
+    drawWaves(rows);
+}
+
+//function drawWaves uses reference from https://editor.p5js.org/pippinbarr/sketches/bgKTIXoir
+function drawWaves(number) {
+    // Loop through all our rows and draw each wave
+    // We loop "backwards" to draw them one on top of the other nicely
+    for (let i = number; i >= 0; i--) {
+        drawWave(i, number);
+    }
+}
+
+function drawWave(n, rows) {
+    // Calculate the base y for this wave based on an offset from the bottom of the canvas
+    // and subtracting the number of waves to move up. We're dividing the wave height in order to make the waves overlap
+    let baseY = waterStart + (waterEnd - waterStart) * (n / rows);
+    // We'll start each wave at 0 on the x axis
+    let startX = 0;
+    push();
+    // We'll use the HSB model to vary their color more easily
+    colorMode(HSB);
+    // Calculate the hue (0 - 360) based on the wave number, mapping it to an HSB hue value
+    let hue = map(n, 0, rows, 200, 250);
+    fill(hue, 60, 50, 0.5); // Set some transparency
+    noStroke();
+    // We're using vertex-based drawing
+    beginShape();
+    // Starting vertex!
+    vertex(startX, baseY);
+    // Loop along the x axis drawing vertices for each point along the sine function in increments of 10
+    for (let x = startX; x <= width; x += 10) {
+        // Calculate the wave's y based on the sine function and the baseY
+        let y = baseY + sin(x * 0.05) * waveMaxHeight;
+        // Draw our vertex
+        vertex(x, y);
+    }
+    // Draw the final three vertices to close the shape around the edges of the canvas
+    vertex(width, waterEnd);
+    vertex(width, height);
+    vertex(0, height);
+    // Done!
+    endShape(CLOSE);
+    pop();
 }
 
 //draw the reflection of the shape
 function drawReflection() {
     //Find the x-coordinate of the highest point in the drawShape
-    let minY = Infinity;
+    let minY = Infinity; 
     for (let pt of shapePoints) {
         if (pt.y < minY) {
             minY = pt.y;
