@@ -54,9 +54,9 @@ function windowResized() {
 
 function draw() {
     drawBackground();
-    drawShape();
     drawWater();
     drawReflection();
+    drawShape();
 }
 
 //draw the background colours
@@ -86,9 +86,9 @@ function drawBackground() {
 
 //draw the shape of landmark
 function drawShape() {
-    fill(0);
-    noStroke();
-    strokeWeight(2);
+    stroke(58, 37, 74, 150);
+    strokeWeight(8);
+    fill(74, 37, 37);
     beginShape();
     for (let pt of shapePoints) {
         let x = pt.x * scaleFactor;
@@ -119,9 +119,9 @@ function drawReflection() {
         }
     }
     //Draw an ellipse for the reflection
-    let diameter = 40 * scaleFactor;
+    let diameter = 45 * scaleFactor;
     let spacing = diameter + 5;
-    fill(0, 200);
+    fill(74, 37, 37, 130);
     noStroke();
     let x = highestX * scaleFactor;
     for (let i = 0; i < 7; i++) {
