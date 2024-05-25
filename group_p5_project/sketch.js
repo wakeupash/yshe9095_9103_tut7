@@ -20,6 +20,11 @@ let maxShapeY;
 let waterStart;
 let waterEnd;
 
+let numSegments = 50;
+
+//We will store the segments in an array
+let segments = [];
+
 function setup() {
     createCanvas(windowWidth, windowHeight);
     scaleFactor = min(width / baseWidth, height / baseHeight);
