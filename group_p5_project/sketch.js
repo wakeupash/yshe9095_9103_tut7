@@ -3,7 +3,7 @@ const baseHeight = 719;
 
 let shapePoints = [
     {x: 31, y: 524}, {x: 87, y: 452}, {x: 135, y: 450}, {x: 146, y: 399},
-    {x: 176, y: 449}, {x: 208, y: 436}, {x: 201, y: 172}, {x: 336, y: 30},
+    {x: 176, y: 449}, {x: 208, y: 436}, {x: 201, y: 172}, {x: 236, y: 30},
     {x: 272, y: 184}, {x: 286, y: 392}, {x: 297, y: 364}, {x: 311, y: 352},
     {x: 324, y: 309}, {x: 339, y: 348}, {x: 375, y: 382}, {x: 376, y: 428},
     {x: 429, y: 429}, {x: 475, y: 451}, {x: 492, y: 445}, {x: 501, y: 418},
@@ -52,7 +52,6 @@ function drawBackground() {
     }
 }
 
-
 //draw the shape of landmark
 function drawShape() {
     //to ensure the shape scales fits the window.
@@ -83,24 +82,16 @@ function drawWater() {
     }
 }
 
-
 //draw the reflection of the shape
 function drawReflection() {
-    let minY = Infinity;
-    for (let pt of shapePoints) {
-        if (pt.y < minY) {
-            minY = pt.y;
-            highestX = pt.x;
-        }
-    }
     let scaleFactor = min(width / baseWidth, height / baseHeight);
     let diameter = 40 * scaleFactor;
     let spacing = diameter + 5;
     fill(0, 200);
     noStroke();
-    let x = highestX * scaleFactor; // Use the x coordinate of the highest point
     for (let i = 0; i < 7; i++) {
-        let y = height * 0.8 + i * spacing + diameter / 2;
-        ellipse(x, y, diameter * 1.5, diameter);
+        let y = height * 0.8 + i * spacing + diameter/2;
+        ellipse(339, y, diameter * 1.5, diameter);
     }
 }
+
