@@ -1,6 +1,9 @@
 const baseWidth = 915;
 const baseHeight = 719;
 
+//to ensure the shape scales fits the window.
+let scaleFactor;
+
 let shapePoints = [
     {x: 31, y: 524}, {x: 87, y: 452}, {x: 135, y: 450}, {x: 146, y: 399},
     {x: 176, y: 449}, {x: 208, y: 436}, {x: 201, y: 172}, {x: 236, y: 30},
@@ -13,12 +16,40 @@ let shapePoints = [
     {x: 0, y: 526}
 ];
 
+let maxShapeY;
+let waterStart;
+let waterEnd;
+
 function setup() {
     createCanvas(windowWidth, windowHeight);
+    scaleFactor = min(width / baseWidth, height / baseHeight);
+    //Function to get the maximum y value from shapePoints
+    let maxY = -Infinity;
+    for (let pt of shapePoints) {
+        if (pt.y > maxY) {
+            maxY = pt.y;
+        }
+    }
+    maxShapeY = maxY * scaleFactor;
+    //Get the waterStart value of the beginning of the water surface from 90% of the height of the entire shape
+    waterStart = maxShapeY * 0.9;
+    waterEnd = height;
 }
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
+    scaleFactor = min(width / baseWidth, height / baseHeight);
+    //Function to get the maximum y value from shapePoints
+    let maxY = -Infinity;
+    for (let pt of shapePoints) {
+        if (pt.y > maxY) {
+            maxY = pt.y;
+        }
+    }
+    maxShapeY = maxY * scaleFactor;
+    //Get the waterStart value of the beginning of the water surface from 90% of the height of the entire shape
+    waterStart = maxShapeY * 0.9;
+    waterEnd = height;
 }
 
 function draw() {
@@ -55,8 +86,6 @@ function drawBackground() {
 
 //draw the shape of landmark
 function drawShape() {
-    //to ensure the shape scales fits the window.
-    let scaleFactor = min(width / baseWidth, height / baseHeight);
     fill(0);
     noStroke();
     strokeWeight(2);
@@ -71,16 +100,6 @@ function drawShape() {
 
 //draw the water surface
 function drawWater() {
-    let maxY = -Infinity;
-    for (let pt of shapePoints) {
-        if (pt.y > maxY) {
-            maxY = pt.y;
-        }
-    }
-    let scaleFactor = min(width / baseWidth, height / baseHeight);
-    let maxShapeY = maxY * scaleFactor;
-    let waterStart = maxShapeY * 0.9;
-    let waterEnd = windowHeight * scaleFactor;
     for (let i = waterStart; i < waterEnd; i++) {
         let inter = map(i, waterStart, waterEnd, 0, 1);
         let c = lerpColor(color(255, 142, 0, 60), color(108, 159, 189, 60), inter);
@@ -99,8 +118,6 @@ function drawReflection() {
             highestX = pt.x;
         }
     }
-    let scaleFactor = min(width / baseWidth, height / baseHeight);
-    let waterStart = height * 0.6 * scaleFactor;
     let diameter = 40 * scaleFactor;
     let spacing = diameter + 5;
     fill(0, 200);
