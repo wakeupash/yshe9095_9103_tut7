@@ -23,9 +23,18 @@ let waterEnd;
 let rows = 5; 
 let waveMaxHeight = 20; 
 
+let numSegments = 40;
+
+//We will store the segments in an array
+let segments = [];
+
 function setup() {
     createCanvas(windowWidth, windowHeight);
     scaleFactor = min(width / baseWidth, height / baseHeight);
+    //We can use the width and height of the image to calculate the size of each segment
+    let segmentWidth = windowWidth / numSegments;
+    let segmentHeight = windowHeight / numSegments;
+
     //Function to get the maximum y value from shapePoints
     let maxY = -Infinity;
     for (let pt of shapePoints) {
@@ -38,6 +47,16 @@ function setup() {
     waterStart = maxShapeY * 0.9;
     //Let the value of waterEnd be at the bottom of the screen
     waterEnd = height;
+
+    for (let segYPos=0; segYPos<windowHeight; segYPos+=segmentHeight) {
+        //this is looping over the height
+        for (let segXPos=0; segXPos<windowWidth; segXPos+=segmentWidth) {
+          //this loops over width
+          //This will create a segment for each x and y position
+          let segment = new ImageSegment(segXPos,segYPos,segmentWidth,segmentHeight);
+          segments.push(segment);
+        }
+      }
 }
 
 function windowResized() {
@@ -59,9 +78,15 @@ function windowResized() {
 
 function draw() {
     drawBackground();
-    drawShape();
     drawWater();
     drawReflection();
+    drawShape();
+
+    //lets draw the segments to the canvas,
+    //we will use a for of loop to loop over the segments array
+    for (const segment of segments) {
+      segment.draw();
+    }
 }
 
 //draw the background colours
@@ -91,9 +116,9 @@ function drawBackground() {
 
 //draw the shape of landmark
 function drawShape() {
-    fill(0);
-    noStroke();
-    strokeWeight(2);
+    stroke(58, 37, 74, 150);
+    strokeWeight(8);
+    fill(74, 37, 37);
     beginShape();
     for (let pt of shapePoints) {
         let x = pt.x * scaleFactor;
@@ -167,13 +192,33 @@ function drawReflection() {
         }
     }
     //Draw an ellipse for the reflection
-    let diameter = 40 * scaleFactor;
+    let diameter = 45 * scaleFactor;
     let spacing = diameter + 5;
-    fill(0, 200);
+    fill(74, 37, 37, 130);
     noStroke();
     let x = highestX * scaleFactor;
     for (let i = 0; i < 7; i++) {
         let y = waterStart + i * spacing + diameter/2;
         ellipse(x, y, diameter * 1.5, diameter);
     }
+}
+
+//Here is our class for the image segments, we start with the class keyword
+class ImageSegment {
+  constructor(srcImgSegXPosInPrm,srcImgSegYPosInPrm,srcImgSegWidthInPrm,srcImgSegHeightInPrm) {
+    //these parameters are used to set the internal properties of an instance of the segment
+    //These parameters are named as imageSource as they are derived from the image we are using
+    this.srcImgSegXPos = srcImgSegXPosInPrm;
+    this.srcImgSegYPos = srcImgSegYPosInPrm;
+    this.srcImgSegWidth = srcImgSegWidthInPrm;
+    this.srcImgSegHeight = srcImgSegHeightInPrm;
+  }
+
+  draw() {
+    //Let's draw the segment to the canvas, for now we will draw it 
+    //as an empty rectangle so we can see it
+    noFill();
+    stroke(0);
+    rect(this.srcImgSegXPos,this.srcImgSegYPos,this.srcImgSegWidth,this.srcImgSegHeight);
+  }
 }
