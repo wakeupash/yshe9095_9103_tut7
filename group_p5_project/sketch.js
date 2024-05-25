@@ -20,7 +20,7 @@ let maxShapeY;
 let waterStart;
 let waterEnd;
 
-let numSegments = 50;
+let numSegments = 40;
 
 //We will store the segments in an array
 let segments = [];
@@ -28,6 +28,10 @@ let segments = [];
 function setup() {
     createCanvas(windowWidth, windowHeight);
     scaleFactor = min(width / baseWidth, height / baseHeight);
+    //We can use the width and height of the image to calculate the size of each segment
+    let segmentWidth = windowWidth / numSegments;
+    let segmentHeight = windowHeight / numSegments;
+
     //Function to get the maximum y value from shapePoints
     let maxY = -Infinity;
     for (let pt of shapePoints) {
@@ -39,6 +43,16 @@ function setup() {
     //Get the waterStart value of the beginning of the water surface from 90% of the height of the entire shape
     waterStart = maxShapeY * 0.9;
     waterEnd = height;
+
+    for (let segYPos=0; segYPos<windowHeight; segYPos+=segmentHeight) {
+        //this is looping over the height
+        for (let segXPos=0; segXPos<windowWidth; segXPos+=segmentWidth) {
+          //this loops over width
+          //This will create a segment for each x and y position
+          let segment = new ImageSegment(segXPos,segYPos,segmentWidth,segmentHeight);
+          segments.push(segment);
+        }
+      }
 }
 
 function windowResized() {
@@ -62,6 +76,12 @@ function draw() {
     drawWater();
     drawReflection();
     drawShape();
+
+    //lets draw the segments to the canvas,
+    //we will use a for of loop to loop over the segments array
+    for (const segment of segments) {
+      segment.draw();
+    }
 }
 
 //draw the background colours
@@ -133,4 +153,24 @@ function drawReflection() {
         let y = waterStart + i * spacing + diameter/2;
         ellipse(x, y, diameter * 1.5, diameter);
     }
+}
+
+//Here is our class for the image segments, we start with the class keyword
+class ImageSegment {
+  constructor(srcImgSegXPosInPrm,srcImgSegYPosInPrm,srcImgSegWidthInPrm,srcImgSegHeightInPrm) {
+    //these parameters are used to set the internal properties of an instance of the segment
+    //These parameters are named as imageSource as they are derived from the image we are using
+    this.srcImgSegXPos = srcImgSegXPosInPrm;
+    this.srcImgSegYPos = srcImgSegYPosInPrm;
+    this.srcImgSegWidth = srcImgSegWidthInPrm;
+    this.srcImgSegHeight = srcImgSegHeightInPrm;
+  }
+
+  draw() {
+    //Let's draw the segment to the canvas, for now we will draw it 
+    //as an empty rectangle so we can see it
+    noFill();
+    stroke(0);
+    rect(this.srcImgSegXPos,this.srcImgSegYPos,this.srcImgSegWidth,this.srcImgSegHeight);
+  }
 }
