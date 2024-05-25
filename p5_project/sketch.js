@@ -24,6 +24,8 @@ function windowResized() {
 function draw() {
     drawBackground();
     drawShape();
+    drawWater();
+    drawReflection();
 }
 
 //draw the background colours
@@ -69,24 +71,23 @@ function drawShape() {
 
 //draw the water surface
 function drawWater() {
-  let waterHeight = height * 0.7;
-  noStroke();
-  fill(0, 0, 255, 50);
-  rect(0, waterHeight, width, height - waterHeight);
+    for (let i = height * 0.8; i < height; i++) {
+        let inter = map(i, height * 0.8, height, 0, 1);
+        let c = lerpColor(color(255, 142, 0, 60), color(108, 159, 189, 60), inter);
+        stroke(c);
+        line(0, i, width, i);
+    }
 }
 
 //draw the reflection of the shape
 function drawReflection() {
-  let scaleFactor = min(width / baseWidth, height / baseHeight);
-  let waterHeight = height * 0.7;
-  fill(0, 0, 0, 100);
-  noStroke();
-  strokeWeight(2);
-  beginShape();
-  for (let pt of shapePoints) {
-      let x = pt.x * scaleFactor;
-      let y = waterHeight + (waterHeight - (pt.y * scaleFactor));
-      vertex(x, y);
-  }
-  endShape(CLOSE);
+    let scaleFactor = min(width / baseWidth, height / baseHeight);
+    let diameter = 30 * scaleFactor;
+    let spacing = diameter + 5;
+    fill(0, 200);
+    noStroke();
+    for (let i = 0; i < 7; i++) {
+        let y = height * 0.8 + i * spacing + diameter/2;
+        ellipse(339, y, diameter * 2, diameter); // vertical stretched ellipse to represent reflection
+    }
 }
