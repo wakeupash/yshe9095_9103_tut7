@@ -3,7 +3,7 @@ const baseHeight = 719;
 
 let shapePoints = [
     {x: 31, y: 524}, {x: 87, y: 452}, {x: 135, y: 450}, {x: 146, y: 399},
-    {x: 176, y: 449}, {x: 208, y: 436}, {x: 201, y: 172}, {x: 336, y: 30},
+    {x: 176, y: 449}, {x: 208, y: 436}, {x: 201, y: 172}, {x: 236, y: 30},
     {x: 272, y: 184}, {x: 286, y: 392}, {x: 297, y: 364}, {x: 311, y: 352},
     {x: 324, y: 309}, {x: 339, y: 348}, {x: 375, y: 382}, {x: 376, y: 428},
     {x: 429, y: 429}, {x: 475, y: 451}, {x: 492, y: 445}, {x: 501, y: 418},
@@ -71,15 +71,14 @@ function drawShape() {
 
 //draw the water surface
 function drawWater() {
-    let blockSize = 20;
-    for (let y = height * 0.8; y < height; y += blockSize) {
-        for (let x = 0; x < width; x += blockSize) {
-            let inter = map(y, height * 0.8, height, 0, 1);
-            let c = lerpColor(color(255, 142, 0, 60), color(108, 159, 189, 60), inter);
-            fill(c);
-            noStroke();
-            rect(x, y, blockSize, blockSize);
-        }
+    let scaleFactor = min(width / baseWidth, height / baseHeight);
+    let waterStart = height * 0.6 * scaleFactor;
+    let waterEnd = height * scaleFactor;
+    for (let i = waterStart; i < waterEnd; i++) {
+        let inter = map(i, waterStart, waterEnd, 0, 1);
+        let c = lerpColor(color(255, 142, 0, 60), color(108, 159, 189, 60), inter);
+        stroke(c);
+        line(0, i, width, i);
     }
 }
 
@@ -94,13 +93,14 @@ function drawReflection() {
         }
     }
     let scaleFactor = min(width / baseWidth, height / baseHeight);
+    let waterStart = height * 0.6 * scaleFactor;
     let diameter = 40 * scaleFactor;
     let spacing = diameter + 5;
     fill(0, 200);
     noStroke();
-    let x = highestX * scaleFactor; // Use the x coordinate of the highest point
+    let x = highestX * scaleFactor;
     for (let i = 0; i < 7; i++) {
-        let y = height * 0.8 + i * spacing + diameter / 2;
+        let y = waterStart + i * spacing + diameter/2;
         ellipse(x, y, diameter * 1.5, diameter);
     }
 }
