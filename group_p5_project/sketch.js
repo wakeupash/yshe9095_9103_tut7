@@ -44,7 +44,7 @@ function windowResized() {
 }
 
 function calculateScaling() {
-    //Function to get the maximum y value from shapePoints
+    //Function to get the maximum y value from shapePoints, use this technology from https://stackoverflow.com/questions/63236065/can-i-use-infinity-and-infinity-as-an-initial-value-for-max-and-min-variables
     let maxY = -Infinity;
     for (let pt of shapePoints) {
         if (pt.y > maxY) {
