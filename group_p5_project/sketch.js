@@ -170,7 +170,7 @@ function drawWave(n, rows) {
     // Loop along the x axis drawing vertices for each point along the sine function in increments of 10
     for (let x = startX; x <= width; x += 10) {
         // Calculate the wave's y based on the sine function and the baseY
-        let y = baseY + sin(x * 0.05) * waveMaxHeight;
+        let y = baseY + sin(x * 0.05 * scaleFactor) * waveMaxHeight * scaleFactor;
         // Draw our vertex
         vertex(x, y);
     }
