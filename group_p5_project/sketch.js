@@ -57,6 +57,8 @@ function setup() {
           segments.push(segment);
         }
       }
+      //stop the animation
+      noLoop();
 }
 
 function windowResized() {
@@ -81,7 +83,7 @@ function draw() {
     drawWater();
     drawReflection();
     drawShape();
-
+    drawTexture();
     //lets draw the segments to the canvas,
     //we will use a for of loop to loop over the segments array
     for (const segment of segments) {
@@ -202,6 +204,46 @@ function drawReflection() {
         ellipse(x, y, diameter * 1.5, diameter);
     }
 }
+
+//draw the texture inside the landmark
+function drawTexture() {
+    const numLines = 2000; 
+    const maxLength = 45; 
+    strokeWeight(1.5);
+    for (let i = 0; i < numLines; i++) {
+        let x1 = random(0, baseWidth) * scaleFactor;
+        let y1 = random(0, maxShapeY);
+        //make the random angle
+        let angle = random(TWO_PI); 
+        //make the random length
+        let length = random(10, maxLength); 
+        let x2 = x1 + cos(angle) * length;
+        let y2 = y1 + sin(angle) * length;
+        if (isInsideShape(x1, y1) && isInsideShape(x2, y2)) {
+            let c = lerpColor(color(59, 64, 63), color(56, 21, 22), random(1));
+            stroke(c);
+            line(x1, y1, x2, y2);
+        }
+    }
+}
+
+//make sure the lines created is inside the shape
+function isInsideShape(x, y) {
+    let isInside = false;
+    let j = shapePoints.length - 1;
+    for (let i = 0; i < shapePoints.length; i++) {
+        let xi = shapePoints[i].x * scaleFactor;
+        let yi = shapePoints[i].y * scaleFactor;
+        let xj = shapePoints[j].x * scaleFactor;
+        let yj = shapePoints[j].y * scaleFactor;
+
+        let intersect = ((yi > y) != (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        if (intersect) isInside = !isInside;
+        j = i;
+    }
+    return isInside;
+}
+
 
 //Here is our class for the image segments, we start with the class keyword
 class ImageSegment {
