@@ -236,16 +236,27 @@ function isInsideShape(x, y) {
     return isInside;
 }
 
+//make pixel
 function applyPixelation() {
+    // Loop through the canvas in steps of segmentSize, both horizontally and vertically
     for (let y = 0; y < height; y += segmentSize) {
         for (let x = 0; x < width; x += segmentSize) {
+            // Get the color of the pixel at the center of the current segment
             let c = get(x + segmentSize / 2, y + segmentSize / 2);
+            
+            // Set the fill color to the color of the central pixel
             fill(c);
+            
+            // Disable the stroke for the rectangle to ensure a solid color fill
             noStroke();
+            
+            // Draw a rectangle covering the current segment
+            // The rectangle starts at (x, y) and has a width and height of segmentSize
             rect(x, y, segmentSize, segmentSize);
         }
     }
 }
+
 
 /*
 //Here is our class for the image segments, we start with the class keyword
