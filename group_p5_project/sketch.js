@@ -23,47 +23,35 @@ let waterEnd;
 let rows = 5; 
 let waveMaxHeight = 20; 
 
+let segmentSize = 20; // Segment size for the pixelation effect
+/*
 let numSegments = 40;
 
 //We will store the segments in an array
 let segments = [];
+*/
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
     scaleFactor = min(width / baseWidth, height / baseHeight);
+    /*
     //We can use the width and height of the image to calculate the size of each segment
     let segmentWidth = windowWidth / numSegments;
     let segmentHeight = windowHeight / numSegments;
-
+    */
     //Function to get the maximum y value from shapePoints
-    let maxY = -Infinity;
-    for (let pt of shapePoints) {
-        if (pt.y > maxY) {
-            maxY = pt.y;
-        }
-    }
-    maxShapeY = maxY * scaleFactor;
-    //Get the waterStart value from 90% of the height of the entire shape
-    waterStart = maxShapeY * 0.9;
-    //Let the value of waterEnd be at the bottom of the screen
-    waterEnd = height;
-
-    for (let segYPos=0; segYPos<windowHeight; segYPos+=segmentHeight) {
-        //this is looping over the height
-        for (let segXPos=0; segXPos<windowWidth; segXPos+=segmentWidth) {
-          //this loops over width
-          //This will create a segment for each x and y position
-          let segment = new ImageSegment(segXPos,segYPos,segmentWidth,segmentHeight);
-          segments.push(segment);
-        }
-      }
-      //stop the animation
-      noLoop();
+    calculateScaling();
+    noLoop();
 }
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
     scaleFactor = min(width / baseWidth, height / baseHeight);
+    calculateScaling();
+    redraw();
+}
+
+function calculateScaling() {
     //Function to get the maximum y value from shapePoints
     let maxY = -Infinity;
     for (let pt of shapePoints) {
@@ -84,11 +72,14 @@ function draw() {
     drawReflection();
     drawShape();
     drawTexture();
+    /*
     //lets draw the segments to the canvas,
     //we will use a for of loop to loop over the segments array
     for (const segment of segments) {
       segment.draw();
     }
+    */
+    applyPixelation();
 }
 
 //draw the background colours
@@ -186,7 +177,8 @@ function drawWave(n, rows) {
 //draw the reflection of the shape
 function drawReflection() {
     //Find the x-coordinate of the highest point in the drawShape
-    let minY = Infinity; 
+    let minY = Infinity;
+    let highestX;
     for (let pt of shapePoints) {
         if (pt.y < minY) {
             minY = pt.y;
@@ -244,7 +236,18 @@ function isInsideShape(x, y) {
     return isInside;
 }
 
+function applyPixelation() {
+    for (let y = 0; y < height; y += segmentSize) {
+        for (let x = 0; x < width; x += segmentSize) {
+            let c = get(x + segmentSize / 2, y + segmentSize / 2);
+            fill(c);
+            noStroke();
+            rect(x, y, segmentSize, segmentSize);
+        }
+    }
+}
 
+/*
 //Here is our class for the image segments, we start with the class keyword
 class ImageSegment {
   constructor(srcImgSegXPosInPrm,srcImgSegYPosInPrm,srcImgSegWidthInPrm,srcImgSegHeightInPrm) {
@@ -264,3 +267,4 @@ class ImageSegment {
     rect(this.srcImgSegXPos,this.srcImgSegYPos,this.srcImgSegWidth,this.srcImgSegHeight);
   }
 }
+*/
