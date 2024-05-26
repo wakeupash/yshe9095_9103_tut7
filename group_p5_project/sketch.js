@@ -4,6 +4,7 @@ const baseHeight = 719;
 //to ensure the shape scales fits the window.
 let scaleFactor;
 
+//key points of the shape
 let shapePoints = [
     {x: 31, y: 524}, {x: 87, y: 452}, {x: 135, y: 450}, {x: 146, y: 399},
     {x: 176, y: 449}, {x: 208, y: 436}, {x: 201, y: 172}, {x: 236, y: 30},
@@ -33,6 +34,7 @@ let segments = [];
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
+    //calculate the scale factor
     scaleFactor = min(width / baseWidth, height / baseHeight);
     /*
     //We can use the width and height of the image to calculate the size of each segment
@@ -46,6 +48,7 @@ function setup() {
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
+    //calculate the scale factor
     scaleFactor = min(width / baseWidth, height / baseHeight);
     calculateScaling();
     redraw();
@@ -82,8 +85,8 @@ function draw() {
     applyPixelation();
 }
 
-//draw the background colours
 function drawBackground() {
+    //draw the sky
     for (let i = 0; i < height * 0.5; i++) {
         let inter = map(i, 0, height * 0.5, 0, 1);
         let c = lerpColor(color(135, 206, 235), color(255, 140, 0), inter);
@@ -91,6 +94,7 @@ function drawBackground() {
         line(0, i, width, i);
     }
 
+    //draw the transitation
     for (let i = height * 0.5; i < height * 0.6; i++) {
         let inter = map(i, height * 0.5, height * 0.6, 0, 1);
         let c = lerpColor(color(255, 140, 0), color(255, 69, 0), inter);
@@ -98,6 +102,7 @@ function drawBackground() {
         line(0, i, width, i);
     }
 
+    //draw the water
     for (let i = height * 0.6; i < height; i++) {
         let inter = map(i, height * 0.6, height, 0, 1);
         let c = lerpColor(color(255, 69, 0), color(70, 130, 180), inter);
@@ -228,11 +233,11 @@ function isInsideShape(x, y) {
         let yi = shapePoints[i].y * scaleFactor;
         let xj = shapePoints[j].x * scaleFactor;
         let yj = shapePoints[j].y * scaleFactor;
-
         let intersect = ((yi > y) != (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
         if (intersect) isInside = !isInside;
         j = i;
     }
+    //to check if the point is inside the shape
     return isInside;
 }
 
