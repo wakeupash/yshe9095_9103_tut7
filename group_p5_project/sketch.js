@@ -17,10 +17,12 @@ let shapePoints = [
     {x: 359, y: 609}, {x: 212, y: 608}, {x: 135, y: 603}, {x: 0, y: 603},
     {x: 0, y: 526}
 ];
-
+//The maximum y value of shape
 let maxShapeY;
+//Fixed position of water surface and bottom
 let waterStart;
 let waterEnd;
+//Num of the wave rows
 let rows = 5; 
 let waveMaxHeight = 20; 
 // Segment size for the pixelation effect
