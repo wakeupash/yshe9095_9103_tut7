@@ -1,11 +1,11 @@
-//claim the variables
+//Claim the variables
 const baseWidth = 915;
 const baseHeight = 719;
 
-//to ensure the shape scales fits the window.
+//To ensure the shape scales fits the window.
 let scaleFactor;
 
-//key points of the shape
+//Key points of the shape
 let shapePoints = [
     {x: 31, y: 524}, {x: 87, y: 452}, {x: 135, y: 450}, {x: 146, y: 399},
     {x: 176, y: 449}, {x: 208, y: 436}, {x: 201, y: 172}, {x: 236, y: 30},
@@ -19,18 +19,18 @@ let shapePoints = [
 ];
 //The maximum y value of shape
 let maxShapeY;
-//Fixed position of water surface and bottom
+//Fixed osition of water surface and bottom
 let waterStart;
 let waterEnd;
 //Num of the wave rows
 let rows = 5; 
 let waveMaxHeight = 20; 
-// Segment size for the pixelation effect
+//Segment size for the pixelation effect
 let segmentSize = 20; 
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
-    //calculate the scale factor
+    //Calculate the scale factor
     scaleFactor = min(width / baseWidth, height / baseHeight);
     //Function to get the maximum y value from shapePoints
     calculateScaling();
@@ -39,7 +39,7 @@ function setup() {
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
-    //calculate the scale factor
+    //Calculate the scale factor
     scaleFactor = min(width / baseWidth, height / baseHeight);
     calculateScaling();
     redraw();
@@ -70,7 +70,7 @@ function draw() {
 }
 
 function drawBackground() {
-    //draw the sky, lerpColor is from https://p5js.org/reference/#/p5/lerpColor
+    //Draw the sky, lerpColor is from https://p5js.org/reference/#/p5/lerpColor
     for (let i = 0; i < height * 0.5; i++) {
         let inter = map(i, 0, height * 0.5, 0, 1);
         let c = lerpColor(color(135, 206, 235), color(255, 140, 0), inter);
@@ -78,7 +78,7 @@ function drawBackground() {
         line(0, i, width, i);
     }
 
-    //draw the transitation
+    //Draw the transitation
     for (let i = height * 0.5; i < height * 0.6; i++) {
         let inter = map(i, height * 0.5, height * 0.6, 0, 1);
         let c = lerpColor(color(255, 140, 0), color(255, 69, 0), inter);
@@ -86,7 +86,7 @@ function drawBackground() {
         line(0, i, width, i);
     }
 
-    //draw the water
+    //Draw the water
     for (let i = height * 0.6; i < height; i++) {
         let inter = map(i, height * 0.6, height, 0, 1);
         let c = lerpColor(color(255, 69, 0), color(70, 130, 180), inter);
@@ -96,7 +96,7 @@ function drawBackground() {
 }
 
 
-//draw the shape of landmark
+//Draw the shape of landmark
 function drawShape() {
     stroke(58, 37, 74, 150);
     strokeWeight(8);
@@ -111,49 +111,49 @@ function drawShape() {
 }
 
 
-//function drawWaves uses reference from https://editor.p5js.org/pippinbarr/sketches/bgKTIXoir
+//Function drawWaves uses reference from https://editor.p5js.org/pippinbarr/sketches/bgKTIXoir
 function drawWaves(number) {
-    // Loop through all our rows and draw each wave
-    // We loop "backwards" to draw them one on top of the other nicely
+    //Loop through all our rows and draw each wave
+    //We loop "backwards" to draw them one on top of the other nicely
     for (let i = number; i >= 0; i--) {
         drawWave(i, number);
     }
 }
 
 function drawWave(n, rows) {
-    // Calculate the base y for this wave based on an offset from the bottom of the canvas
-    // and subtracting the number of waves to move up. We're dividing the wave height in order to make the waves overlap
+    //Calculate the base y for this wave based on an offset from the bottom of the canvas
+    //and subtracting the number of waves to move up. We're dividing the wave height in order to make the waves overlap
     let baseY = waterStart + (waterEnd - waterStart) * (n / rows);
-    // We'll start each wave at 0 on the x axis
+    //We'll start each wave at 0 on the x axis
     let startX = 0;
     push();
     // We'll use the HSB model to vary their color more easily
     colorMode(HSB);
-    // Calculate the hue (0 - 360) based on the wave number, mapping it to an HSB hue value
+    //Calculate the hue (0 - 360) based on the wave number, mapping it to an HSB hue value
     let hue = map(n, 0, rows, 200, 250);
     fill(hue, 60, 50, 0.5); // Set some transparency
     noStroke();
-    // We're using vertex-based drawing
+    //We're using vertex-based drawing
     beginShape();
-    // Starting vertex!
+    //Starting vertex!
     vertex(startX, baseY);
-    // Loop along the x axis drawing vertices for each point along the sine function in increments of 10
+    //Loop along the x axis drawing vertices for each point along the sine function in increments of 10
     for (let x = startX; x <= width; x += 10) {
-        // Calculate the wave's y based on the sine function and the baseY
+        //Calculate the wave's y based on the sine function and the baseY
         let y = baseY + sin(x * 0.05 * scaleFactor) * waveMaxHeight * scaleFactor;
-        // Draw our vertex
+        //Draw our vertex
         vertex(x, y);
     }
-    // Draw the final three vertices to close the shape around the edges of the canvas
+    //Draw the final three vertices to close the shape around the edges of the canvas
     vertex(width, waterEnd);
     vertex(width, height);
     vertex(0, height);
-    // Done!
+    //Done!
     endShape(CLOSE);
     pop();
 }
 
-//draw the reflection of the shape
+//Draw the reflection of the shape
 function drawReflection() {
     //Find the x-coordinate of the highest point in the drawShape, this technique is from https://stackoverflow.com/questions/63236065/can-i-use-infinity-and-infinity-as-an-initial-value-for-max-and-min-variables
     let minY = Infinity;
@@ -176,7 +176,7 @@ function drawReflection() {
     }
 }
 
-//draw the texture inside the landmark
+//Draw the texture inside the landmark
 function drawTexture() {
     const numLines = 2000; 
     const maxLength = 45; 
@@ -184,9 +184,9 @@ function drawTexture() {
     for (let i = 0; i < numLines; i++) {
         let x1 = random(0, baseWidth) * scaleFactor;
         let y1 = random(0, maxShapeY);
-        //make the random angle
+        //Make the random angle
         let angle = random(TWO_PI); 
-        //make the random length
+        //Make the random length
         let length = random(10, maxLength); 
         let x2 = x1 + cos(angle) * length;
         let y2 = y1 + sin(angle) * length;
@@ -198,7 +198,7 @@ function drawTexture() {
     }
 }
 
-//make sure the lines created is inside the shape, use this technology from https://www.geeksforgeeks.org/how-to-check-if-a-given-point-lies-inside-a-polygon/
+//Make sure the lines created is inside the shape, use this technology from https://www.geeksforgeeks.org/how-to-check-if-a-given-point-lies-inside-a-polygon/
 function isInsideShape(x, y) {
     let isInside = false;
     let j = shapePoints.length - 1;
@@ -211,26 +211,22 @@ function isInsideShape(x, y) {
         if (intersect) isInside = !isInside;
         j = i;
     }
-    //to check if the point is inside the shape
+    //To check if the point is inside the shape
     return isInside;
 }
 
-//make pixel
+//Create a pixel style
 function applyPixelation() {
-    // Loop through the canvas in steps of segmentSize, both horizontally and vertically
+    //Loop through the canvas in steps of segmentSize, both horizontally and vertically
     for (let y = 0; y < height; y += segmentSize) {
         for (let x = 0; x < width; x += segmentSize) {
-            // Get the color of the pixel at the center of the current segment
+            //Get the color of the pixel at the center of the current segment
             let c = get(x + segmentSize / 2, y + segmentSize / 2);
-            
-            // Set the fill color to the color of the central pixel
+            //Set the fill color to the color of the central pixel
             fill(c);
-            
-            // Disable the stroke for the rectangle to ensure a solid color fill
+            //Disable the stroke for the rectangle to ensure a solid color fill
             noStroke();
-            
-            // Draw a rectangle covering the current segment
-            // The rectangle starts at (x, y) and has a width and height of segmentSize
+            //Draw a rectangle covering the current segment
             rect(x, y, segmentSize, segmentSize);
         }
     }
