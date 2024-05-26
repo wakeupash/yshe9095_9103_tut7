@@ -1,3 +1,4 @@
+//claim the variables
 const baseWidth = 915;
 const baseHeight = 719;
 
@@ -20,11 +21,10 @@ let shapePoints = [
 let maxShapeY;
 let waterStart;
 let waterEnd;
-
 let rows = 5; 
 let waveMaxHeight = 20; 
-
-let segmentSize = 20; // Segment size for the pixelation effect
+// Segment size for the pixelation effect
+let segmentSize = 20; 
 /*
 let numSegments = 40;
 
