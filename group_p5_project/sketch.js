@@ -25,22 +25,11 @@ let rows = 5;
 let waveMaxHeight = 20; 
 // Segment size for the pixelation effect
 let segmentSize = 20; 
-/*
-let numSegments = 40;
-
-//We will store the segments in an array
-let segments = [];
-*/
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
     //calculate the scale factor
     scaleFactor = min(width / baseWidth, height / baseHeight);
-    /*
-    //We can use the width and height of the image to calculate the size of each segment
-    let segmentWidth = windowWidth / numSegments;
-    let segmentHeight = windowHeight / numSegments;
-    */
     //Function to get the maximum y value from shapePoints
     calculateScaling();
     noLoop();
@@ -75,13 +64,6 @@ function draw() {
     drawWaves(rows);
     drawReflection();
     drawTexture();
-    /*
-    //lets draw the segments to the canvas,
-    //we will use a for of loop to loop over the segments array
-    for (const segment of segments) {
-      segment.draw();
-    }
-    */
     applyPixelation();
 }
 
