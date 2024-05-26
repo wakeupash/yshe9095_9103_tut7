@@ -46,7 +46,8 @@ function windowResized() {
 }
 
 function calculateScaling() {
-    //Function to get the maximum y value from shapePoints, this technique is from https://stackoverflow.com/questions/63236065/can-i-use-infinity-and-infinity-as-an-initial-value-for-max-and-min-variables
+    //Function to get the maximum y value from shapePoints, 
+    //use this technique from https://stackoverflow.com/questions/63236065/can-i-use-infinity-and-infinity-as-an-initial-value-for-max-and-min-variables
     let maxY = -Infinity;
     for (let pt of shapePoints) {
         if (pt.y > maxY) {
@@ -111,7 +112,7 @@ function drawShape() {
 }
 
 
-//Function drawWaves uses reference from https://editor.p5js.org/pippinbarr/sketches/bgKTIXoir
+//Function drawWaves uses the technique from https://editor.p5js.org/pippinbarr/sketches/bgKTIXoir
 function drawWaves(number) {
     //Loop through all our rows and draw each wave
     //We loop "backwards" to draw them one on top of the other nicely
@@ -155,7 +156,8 @@ function drawWave(n, rows) {
 
 //Draw the reflection of the shape
 function drawReflection() {
-    //Find the x-coordinate of the highest point in the drawShape, this technique is from https://stackoverflow.com/questions/63236065/can-i-use-infinity-and-infinity-as-an-initial-value-for-max-and-min-variables
+    //Find the x-coordinate of the highest point in the drawShape, 
+    //use this technique from https://stackoverflow.com/questions/63236065/can-i-use-infinity-and-infinity-as-an-initial-value-for-max-and-min-variables
     let minY = Infinity;
     let highestX;
     for (let pt of shapePoints) {
@@ -198,7 +200,7 @@ function drawTexture() {
     }
 }
 
-//Make sure the lines created is inside the shape, use this technology from https://www.geeksforgeeks.org/how-to-check-if-a-given-point-lies-inside-a-polygon/
+//Make sure the lines created is inside the shape, use this technique from https://www.geeksforgeeks.org/how-to-check-if-a-given-point-lies-inside-a-polygon/
 function isInsideShape(x, y) {
     let isInside = false;
     let j = shapePoints.length - 1;
