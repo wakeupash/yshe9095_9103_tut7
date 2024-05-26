@@ -68,7 +68,7 @@ function draw() {
 }
 
 function drawBackground() {
-    //draw the sky
+    //draw the sky, lerpColor is from https://p5js.org/reference/#/p5/lerpColor
     for (let i = 0; i < height * 0.5; i++) {
         let inter = map(i, 0, height * 0.5, 0, 1);
         let c = lerpColor(color(135, 206, 235), color(255, 140, 0), inter);
@@ -196,7 +196,7 @@ function drawTexture() {
     }
 }
 
-//make sure the lines created is inside the shape
+//make sure the lines created is inside the shape, use this technology from https://www.geeksforgeeks.org/how-to-check-if-a-given-point-lies-inside-a-polygon/
 function isInsideShape(x, y) {
     let isInside = false;
     let j = shapePoints.length - 1;
