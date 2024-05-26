@@ -195,8 +195,8 @@ function drawReflection() {
     }
     //Draw an ellipse for the reflection
     let diameter = 45 * scaleFactor;
-    let spacing = diameter + 5;
-    fill(74, 37, 37, 170);
+    let spacing = diameter + 1;
+    fill(74, 37, 37, 150);
     noStroke();
     let x = highestX * scaleFactor;
     for (let i = 0; i < 7; i++) {
