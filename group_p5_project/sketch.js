@@ -68,9 +68,9 @@ function calculateScaling() {
 
 function draw() {
     drawBackground();
-    drawWater();
-    drawReflection();
     drawShape();
+    drawWaves(rows);
+    drawReflection();
     drawTexture();
     /*
     //lets draw the segments to the canvas,
@@ -121,16 +121,6 @@ function drawShape() {
     endShape(CLOSE);
 }
 
-//draw the water surface
-function drawWater() {
-    for (let i = waterStart; i < waterEnd; i++) {
-        let inter = map(i, waterStart, waterEnd, 0, 1);
-        let c = lerpColor(color(255, 142, 0, 60), color(108, 159, 189, 60), inter);
-        stroke(c);
-        line(0, i, width, i);
-    }
-    drawWaves(rows);
-}
 
 //function drawWaves uses reference from https://editor.p5js.org/pippinbarr/sketches/bgKTIXoir
 function drawWaves(number) {
