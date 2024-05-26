@@ -55,7 +55,7 @@ function calculateScaling() {
     //Get the waterStart value from 90% of the height of the entire shape
     waterStart = maxShapeY * 0.9;
     //Let the value of waterEnd be at the bottom of the screen
-    waterEnd = height;
+    waterEnd = height * scaleFactor;
 }
 
 function draw() {
