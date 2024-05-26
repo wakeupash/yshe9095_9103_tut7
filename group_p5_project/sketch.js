@@ -11,8 +11,8 @@ let shapePoints = [
     {x: 324, y: 309}, {x: 339, y: 348}, {x: 375, y: 382}, {x: 376, y: 428},
     {x: 429, y: 429}, {x: 475, y: 451}, {x: 492, y: 445}, {x: 501, y: 418},
     {x: 509, y: 448}, {x: 556, y: 479}, {x: 553, y: 503}, {x: 596, y: 526},
-    {x: 624, y: 515}, {x: 718, y: 560}, {x: 712, y: 594}, {x: 400, y: 603},
-    {x: 359, y: 629}, {x: 212, y: 628}, {x: 135, y: 623}, {x: 0, y: 617},
+    {x: 624, y: 515}, {x: 718, y: 550}, {x: 712, y: 584}, {x: 400, y: 603},
+    {x: 359, y: 609}, {x: 212, y: 608}, {x: 135, y: 603}, {x: 0, y: 603},
     {x: 0, y: 526}
 ];
 
@@ -196,11 +196,11 @@ function drawReflection() {
     //Draw an ellipse for the reflection
     let diameter = 45 * scaleFactor;
     let spacing = diameter + 5;
-    fill(74, 37, 37, 130);
+    fill(74, 37, 37, 170);
     noStroke();
     let x = highestX * scaleFactor;
     for (let i = 0; i < 7; i++) {
-        let y = waterStart + i * spacing + diameter/2;
+        let y = waterStart + i * spacing + diameter*2;
         ellipse(x, y, diameter * 1.5, diameter);
     }
 }
