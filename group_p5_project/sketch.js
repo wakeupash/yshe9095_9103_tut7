@@ -44,7 +44,7 @@ function windowResized() {
 }
 
 function calculateScaling() {
-    //Function to get the maximum y value from shapePoints, use this technology from https://stackoverflow.com/questions/63236065/can-i-use-infinity-and-infinity-as-an-initial-value-for-max-and-min-variables
+    //Function to get the maximum y value from shapePoints, this technique is from https://stackoverflow.com/questions/63236065/can-i-use-infinity-and-infinity-as-an-initial-value-for-max-and-min-variables
     let maxY = -Infinity;
     for (let pt of shapePoints) {
         if (pt.y > maxY) {
@@ -153,7 +153,7 @@ function drawWave(n, rows) {
 
 //draw the reflection of the shape
 function drawReflection() {
-    //Find the x-coordinate of the highest point in the drawShape
+    //Find the x-coordinate of the highest point in the drawShape, this technique is from https://stackoverflow.com/questions/63236065/can-i-use-infinity-and-infinity-as-an-initial-value-for-max-and-min-variables
     let minY = Infinity;
     let highestX;
     for (let pt of shapePoints) {
@@ -233,3 +233,4 @@ function applyPixelation() {
         }
     }
 }
+
