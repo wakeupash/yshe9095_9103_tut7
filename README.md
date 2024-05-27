@@ -2,7 +2,7 @@
 
 # Claude Monet 'Saint Georges majeur au crépuscule'
 
-# Instructions
+## Instructions
 
 1. **Fireworks**: Click on the screen to create fireworks. Each click will create a new firework at the mouse position.
 2. **Firework Size**: Use the UP and DOWN arrow keys to increase or decrease the size of the fireworks.
@@ -22,7 +22,7 @@
 ### Inspiration
 
 - **Fireworks Animation**: Inspired by the Disney fireworks.
-![image](assets/Disney_firework.jpeg)
+![Disney Fireworks](assets/Disney_firework.jpeg)
 
 ## Technical Explanation
 
