@@ -21,10 +21,13 @@ let shapePoints = [
 let maxShapeY;
 let waterStart;
 let waterEnd;
-let rows = 5; 
-let waveMaxHeight = 20; 
+let rows = 5;
+let waveMaxHeight = 20;
 // Segment size for the pixelation effect
-let segmentSize = 20; 
+let segmentSize = 20;
+
+let textureCreated = false;
+let textureBuffer;
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
@@ -32,6 +35,10 @@ function setup() {
     scaleFactor = min(width / baseWidth, height / baseHeight);
     //Function to get the maximum y value from shapePoints
     calculateScaling();
+    
+    // create a graphics buffer for the texture
+    textureBuffer= createGraphics(windowWidth, windowHeight);
+    drawStaticElements();
     noLoop();
 }
 
@@ -40,6 +47,11 @@ function windowResized() {
     //calculate the scale factor
     scaleFactor = min(width / baseWidth, height / baseHeight);
     calculateScaling();
+    
+    // Recreate the graphics buffer and redraw the texture
+    textureBuffer= createGraphics(windowWidth, windowHeight);
+    textureCreated = false;
+    drawStaticElements();
     redraw();
 }
 
@@ -58,102 +70,92 @@ function calculateScaling() {
     waterEnd = height;
 }
 
-function draw() {
-    drawBackground();
-    drawShape();
-    drawWaves(rows);
-    drawReflection();
-    drawTexture();
-    applyPixelation();
+function drawStaticElements() {
+    drawBackground(textureBuffer);
+    drawShape(textureBuffer);
+    drawWaves(textureBuffer, rows);
+    drawReflection(textureBuffer);
+    if (!textureCreated) {
+        drawTexture();
+        textureCreated = true;
+    }
+    applyPixelation(textureBuffer);
 }
 
-function drawBackground() {
+function draw() {
+    // Draw the static elements from the buffer
+    image(textureBuffer, 0, 0);
+}
+
+function drawBackground(pg) {
+    pg.colorMode(RGB);
     //draw the sky
     for (let i = 0; i < height * 0.5; i++) {
         let inter = map(i, 0, height * 0.5, 0, 1);
         let c = lerpColor(color(135, 206, 235), color(255, 140, 0), inter);
-        stroke(c);
-        line(0, i, width, i);
+        pg.stroke(c);
+        pg.line(0, i, width, i);
     }
 
     //draw the transitation
     for (let i = height * 0.5; i < height * 0.6; i++) {
         let inter = map(i, height * 0.5, height * 0.6, 0, 1);
         let c = lerpColor(color(255, 140, 0), color(255, 69, 0), inter);
-        stroke(c);
-        line(0, i, width, i);
+        pg.stroke(c);
+        pg.line(0, i, width, i);
     }
 
     //draw the water
     for (let i = height * 0.6; i < height; i++) {
         let inter = map(i, height * 0.6, height, 0, 1);
         let c = lerpColor(color(255, 69, 0), color(70, 130, 180), inter);
-        stroke(c);
-        line(0, i, width, i);
+        pg.stroke(c);
+        pg.line(0, i, width, i);
     }
 }
 
-
 //draw the shape of landmark
-function drawShape() {
-    stroke(58, 37, 74, 150);
-    strokeWeight(8);
-    fill(74, 37, 37);
-    beginShape();
+function drawShape(pg) {
+    pg.stroke(58, 37, 74, 150);
+    pg.strokeWeight(8);
+    pg.fill(74, 37, 37);
+    pg.beginShape();
     for (let pt of shapePoints) {
         let x = pt.x * scaleFactor;
         let y = pt.y * scaleFactor;
-        vertex(x, y);
+        pg.vertex(x, y);
     }
-    endShape(CLOSE);
+    pg.endShape(CLOSE);
 }
 
-
-//function drawWaves uses reference from https://editor.p5js.org/pippinbarr/sketches/bgKTIXoir
-function drawWaves(number) {
-    // Loop through all our rows and draw each wave
-    // We loop "backwards" to draw them one on top of the other nicely
+function drawWaves(pg, number) {
     for (let i = number; i >= 0; i--) {
-        drawWave(i, number);
+        drawWave(pg, i, number);
     }
 }
 
-function drawWave(n, rows) {
-    // Calculate the base y for this wave based on an offset from the bottom of the canvas
-    // and subtracting the number of waves to move up. We're dividing the wave height in order to make the waves overlap
+function drawWave(pg, n, rows) {
     let baseY = waterStart + (waterEnd - waterStart) * (n / rows);
-    // We'll start each wave at 0 on the x axis
     let startX = 0;
-    push();
-    // We'll use the HSB model to vary their color more easily
-    colorMode(HSB);
-    // Calculate the hue (0 - 360) based on the wave number, mapping it to an HSB hue value
+    pg.push();
+    pg.colorMode(HSB);
     let hue = map(n, 0, rows, 200, 250);
-    fill(hue, 60, 50, 0.5); // Set some transparency
-    noStroke();
-    // We're using vertex-based drawing
-    beginShape();
-    // Starting vertex!
-    vertex(startX, baseY);
-    // Loop along the x axis drawing vertices for each point along the sine function in increments of 10
+    pg.fill(hue, 60, 50, 0.5);
+    pg.noStroke();
+    pg.beginShape();
+    pg.vertex(startX, baseY);
     for (let x = startX; x <= width; x += 10) {
-        // Calculate the wave's y based on the sine function and the baseY
         let y = baseY + sin(x * 0.05 * scaleFactor) * waveMaxHeight * scaleFactor;
-        // Draw our vertex
-        vertex(x, y);
+        pg.vertex(x, y);
     }
-    // Draw the final three vertices to close the shape around the edges of the canvas
-    vertex(width, waterEnd);
-    vertex(width, height);
-    vertex(0, height);
-    // Done!
-    endShape(CLOSE);
-    pop();
+    pg.vertex(width, waterEnd);
+    pg.vertex(width, height);
+    pg.vertex(0, height);
+    pg.endShape(CLOSE);
+    pg.pop();
 }
 
-//draw the reflection of the shape
-function drawReflection() {
-    //Find the x-coordinate of the highest point in the drawShape
+function drawReflection(pg) {
     let minY = Infinity;
     let highestX;
     for (let pt of shapePoints) {
@@ -162,23 +164,21 @@ function drawReflection() {
             highestX = pt.x;
         }
     }
-    //Draw an ellipse for the reflection
     let diameter = 45 * scaleFactor;
     let spacing = diameter + 1;
-    fill(74, 37, 37, 150);
-    noStroke();
+    pg.fill(74, 37, 37, 150);
+    pg.noStroke();
     let x = highestX * scaleFactor;
     for (let i = 0; i < 7; i++) {
-        let y = waterStart + i * spacing + diameter*2;
-        ellipse(x, y, diameter * 1.5, diameter);
+        let y = waterStart + i * spacing + diameter * 2;
+        pg.ellipse(x, y, diameter * 1.5, diameter);
     }
 }
 
-//draw the texture inside the landmark
-function drawTexture() {
-    const numLines = 2000; 
-    const maxLength = 45; 
-    strokeWeight(1.5);
+function drawTexture(pg) {
+    const numLines = 2000;
+    const maxLength = 45;
+    pg.strokeWeight(1.5);
     for (let i = 0; i < numLines; i++) {
         let x1 = random(0, baseWidth) * scaleFactor;
         let y1 = random(0, maxShapeY);
@@ -190,13 +190,12 @@ function drawTexture() {
         let y2 = y1 + sin(angle) * length;
         if (isInsideShape(x1, y1) && isInsideShape(x2, y2)) {
             let c = lerpColor(color(59, 64, 63), color(56, 21, 22), random(1));
-            stroke(c);
-            line(x1, y1, x2, y2);
+            pg.stroke(c);
+            pg.line(x1, y1, x2, y2);
         }
     }
 }
 
-//make sure the lines created is inside the shape
 function isInsideShape(x, y) {
     let isInside = false;
     let j = shapePoints.length - 1;
@@ -209,7 +208,6 @@ function isInsideShape(x, y) {
         if (intersect) isInside = !isInside;
         j = i;
     }
-    //to check if the point is inside the shape
     return isInside;
 }
 
@@ -218,18 +216,14 @@ function applyPixelation() {
     // Loop through the canvas in steps of segmentSize, both horizontally and vertically
     for (let y = 0; y < height; y += segmentSize) {
         for (let x = 0; x < width; x += segmentSize) {
-            // Get the color of the pixel at the center of the current segment
-            let c = get(x + segmentSize / 2, y + segmentSize / 2);
-            
-            // Set the fill color to the color of the central pixel
-            fill(c);
-            
-            // Disable the stroke for the rectangle to ensure a solid color fill
-            noStroke();
-            
-            // Draw a rectangle covering the current segment
-            // The rectangle starts at (x, y) and has a width and height of segmentSize
-            rect(x, y, segmentSize, segmentSize);
+    // Get the color of the pixel at the center of the current segment
+            let c = pg.get(x + segmentSize / 2, y + segmentSize / 2);
+    // Set the fill color to the color of the central pixel            
+            pg.fill(c);
+    // Disable the stroke for the rectangle to ensure a solid color fill
+            pg.noStroke();
+    // Draw a rectangle covering the current segment           
+            pg.rect(x, y, segmentSize, segmentSize);
         }
     }
 }
