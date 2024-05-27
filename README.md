@@ -33,12 +33,12 @@
 
 ### External Techniques
 
-- **Fireworks**: Based on techniques from The Coding Train on Youtube ([The Coding Train](https://www.youtube.com/watch?v=CKeyIbT3vXI)).
+- **Fireworks**: The animation of fireworks is achieved through two main classes: Firework and Particle. This technique is inspired by The Coding Train on Youtube ([The Coding Train](https://www.youtube.com/watch?v=CKeyIbT3vXI)).
 
 ## References
 
 - [The Coding Train](https://www.youtube.com/watch?v=CKeyIbT3vXI)
-- [p5.js Reference](https://p5js.org/reference/)
+- [p5.js Reference](https://p5js.org/reference/#/p5/lerpColor)
 - [Stack Overflow](https://stackoverflow.com/questions/63236065/can-i-use-infinity-and-infinity-as-an-initial-value-for-max-and-min-variables)
 - [GeeksforGeeks - Point Inside Polygon](https://www.geeksforgeeks.org/how-to-check-if-a-given-point-lies-inside-a-polygon/)
 - [pippinbarr's Wave Sketch](https://editor.p5js.org/pippinbarr/sketches/bgKTIXoir)
