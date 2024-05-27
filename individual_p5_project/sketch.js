@@ -26,6 +26,8 @@ let waveMaxHeight = 20;
 // Segment size for the pixelation effect
 let segmentSize = 20;
 
+let fireworks = [];
+let gravity;
 let textureCreated = false;
 let textureBuffer;
 
@@ -35,9 +37,10 @@ function setup() {
     scaleFactor = min(width / baseWidth, height / baseHeight);
     //Function to get the maximum y value from shapePoints
     calculateScaling();
+    gravity = createVector(0, 0.2);
     
     // create a graphics buffer for the texture
-    textureBuffer= createGraphics(windowWidth, windowHeight);
+    textureBuffer = createGraphics(windowWidth, windowHeight);
     drawStaticElements();
     noLoop();
 }
@@ -48,8 +51,8 @@ function windowResized() {
     scaleFactor = min(width / baseWidth, height / baseHeight);
     calculateScaling();
     
-    // Recreate the graphics buffer and redraw the texture
-    textureBuffer= createGraphics(windowWidth, windowHeight);
+    //recreate the  buffer and redraw the texture
+    textureBuffer = createGraphics(windowWidth, windowHeight);
     textureCreated = false;
     drawStaticElements();
     redraw();
@@ -76,7 +79,7 @@ function drawStaticElements() {
     drawWaves(textureBuffer, rows);
     drawReflection(textureBuffer);
     if (!textureCreated) {
-        drawTexture();
+        drawTexture(textureBuffer);
         textureCreated = true;
     }
     applyPixelation(textureBuffer);
@@ -183,9 +186,9 @@ function drawTexture(pg) {
         let x1 = random(0, baseWidth) * scaleFactor;
         let y1 = random(0, maxShapeY);
         //make the random angle
-        let angle = random(TWO_PI); 
+        let angle = random(TWO_PI);
         //make the random length
-        let length = random(10, maxLength); 
+        let length = random(10, maxLength);
         let x2 = x1 + cos(angle) * length;
         let y2 = y1 + sin(angle) * length;
         if (isInsideShape(x1, y1) && isInsideShape(x2, y2)) {
@@ -212,17 +215,17 @@ function isInsideShape(x, y) {
 }
 
 //make pixel
-function applyPixelation() {
+function applyPixelation(pg) {
     // Loop through the canvas in steps of segmentSize, both horizontally and vertically
     for (let y = 0; y < height; y += segmentSize) {
         for (let x = 0; x < width; x += segmentSize) {
-    // Get the color of the pixel at the center of the current segment
+    // Get the color of the pixel at the center of the current segment          
             let c = pg.get(x + segmentSize / 2, y + segmentSize / 2);
-    // Set the fill color to the color of the central pixel            
+            //Set the fill color to the color of the central pixel
             pg.fill(c);
-    // Disable the stroke for the rectangle to ensure a solid color fill
+            //Disable the stroke for the rectangle to ensure a solid color fill
             pg.noStroke();
-    // Draw a rectangle covering the current segment           
+            //Draw a rectangle covering the current segment
             pg.rect(x, y, segmentSize, segmentSize);
         }
     }
